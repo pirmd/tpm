@@ -1,4 +1,5 @@
 #!/bin/sh
+# Copyright (C) 2016 Pierre Duranton
 # Copyright (C) 2013-2015 Sören Tempel
 #
 # This program is free software: you can redistribute it and/or modify
@@ -105,18 +106,28 @@ insert() {
   fi
 }
 
+list() {
+  # Ugly things coming from original password-store code ONLY to have passFF 
+  # extension works properly
+  # Sorry for that
+  tree -C -l --noreport "${STORE_DIR}" | tail -n +2 | sed 's/\.gpg\(\x1B\[[0-9]\+m\)\{0,1\}\( ->\|$\)/\1\2/g'
+}
+
+
 ##
 # Parse input
 ##
-
-if [ $# -gt 2 ]; then
-  abort "tpm doesn't accept more than two arguments"
-fi
-
-case "${1}" in
-  "show")   show   "${2}" ;;
-  "insert") insert "${2}" ;;
-  *) abort "USAGE: tpm COMMAND ENTRY" ;;
+case $# in
+   0) list ;;
+   1) ;;
+   2) case "${1}" in
+        "show")   show   "${2}" ;;
+        "insert") insert "${2}" ;;
+        *) abort "USAGE: tpm COMMAND ENTRY" ;;
+      esac
+      ;;
+   *) abort "tpm doesn't accept more than two arguments" ;;
 esac
+
 
 # vim: et:sw=2:sts=2
