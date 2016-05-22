@@ -119,7 +119,11 @@ list() {
 ##
 case $# in
    0) list ;;
-   1) ;;
+   1) case "${1}" in
+        "list") list ;;
+        *) show "${1}" ;;
+      esac
+      ;;
    2) case "${1}" in
         "show")   show   "${2}" ;;
         "insert") insert "${2}" ;;
