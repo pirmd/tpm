@@ -1,3 +1,10 @@
+=head1 DISCLAIMER
+
+This version is my personnal quick-end-dirty hack of the original tpm
+by nmeum to make it works with passFF firefox extension. I don't feel
+like to document command I need to add (basically list using tree(1) 
+and default to show if no command given) as they are particulary ugly.
+
 =head1 NAME
 
 tpm - tiny password manager
