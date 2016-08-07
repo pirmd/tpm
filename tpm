@@ -104,9 +104,9 @@ insert() {
 
 list() {
   # Ugly things coming from original password-store code ONLY to have passFF 
-  # extension works properly
-  # Sorry for that
-  tree -C -l --noreport "${STORE_DIR}" | tail -n +2 | sed 's/\.gpg\(\x1B\[[0-9]\+m\)\{0,1\}\( ->\|$\)/\1\2/g'
+  # extension works properly. Sorry for that
+  echo "Password Store"
+  tree -C -l --noreport "${STORE_DIR}" | tail -n +2 | sed -e 's/\.gpg\(\x1B\[[0-9]\+m\)\{0,1\}\( ->\)/\1\2/g' -e 's/\.gpg\(\x1B\[[0-9]\+m\)\{0,1\}\($\)/\1\2/g'
 }
 
 
