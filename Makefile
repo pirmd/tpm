@@ -21,7 +21,7 @@ MANDIR ?= $(PREFIX)/share/man
 all: tpm.1
 tpm.1: README.pod
 	pod2man --section=1 --center="tpm Manual" --name="tpm" \
-		--release="tpm $(VERSION)" $< $@
+		--release="tpm $(VERSION)" $? $@
 
 install: tpm.1
 	install -Dm755 tpm "$(DESTDIR)$(BINDIR)/tpm"
