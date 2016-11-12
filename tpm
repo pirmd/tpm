@@ -1,6 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2016 Pierre Duranton
-# Copyright (C) 2013-2015 Sören Tempel
+# Copyright (C) 2013-2016 Sören Tempel
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +26,6 @@ STORE_DIR="${PASSWORD_STORE_DIR:-${HOME}/.password-store}"
 if [ -r "${STORE_DIR}/.gpg-id" ] && [ -z "${PASSWORD_STORE_KEY}" ]; then
   read -r PASSWORD_STORE_KEY < "${STORE_DIR}/.gpg-id"
 fi
-
 
 ##
 # Helper
@@ -102,32 +100,18 @@ insert() {
     --output "${entry_path}"
 }
 
-list() {
-  # Ugly things coming from original password-store code ONLY to have passFF 
-  # extension works properly. Sorry for that
-  echo "Password Store"
-  tree -C -l --noreport "${STORE_DIR}" | tail -n +2 | sed -e 's/\.gpg\(\x1B\[[0-9]\+m\)\{0,1\}\( ->\)/\1\2/g' -e 's/\.gpg\(\x1B\[[0-9]\+m\)\{0,1\}\($\)/\1\2/g'
-}
-
-
 ##
 # Parse input
 ##
-case $# in
-   0) list ;;
-   1) case "${1}" in
-        "list") list ;;
-        *) show "${1}" ;;
-      esac
-      ;;
-   2) case "${1}" in
-        "show")   show   "${2}" ;;
-        "insert") insert "${2}" ;;
-        *) abort "USAGE: tpm COMMAND ENTRY" ;;
-      esac
-      ;;
-   *) abort "tpm doesn't accept more than two arguments" ;;
-esac
 
+if [ $# -gt 2 ]; then
+  abort "tpm doesn't accept more than two arguments."
+fi
+
+case "${1}" in
+  "show")   show   "${2}" ;;
+  "insert") insert "${2}" ;;
+  *) abort "USAGE: tpm COMMAND ENTRY" ;;
+esac
 
 # vim: et:sw=2:sts=2
